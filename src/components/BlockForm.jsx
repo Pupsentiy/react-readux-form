@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -6,7 +6,7 @@ import LongInput from "./LongInput";
 import ShortInput from "./ShortInput";
 import Select from "./Select";
 import Accordion from "./Accordion";
-import Button from "./Button";
+// import Button from "./Button";
 
 import cities from "../mock/cities.json";
 import sources from "../mock/sources.json";
@@ -24,20 +24,25 @@ const WrapperForm = styled.form`
   border-radius: 8px;
   box-shadow: 0px 5px 20px 0px #35323824;
 `;
-
+const ButtonSubmit = styled.button`
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 14px;
+  text-align: center;
+  color: #828282;
+  background: #e3e3e3;
+  border: none;
+`;
 const social = sources.map((e) => ({ name: e }));
-
 const BlockForm = () => {
   const dispatch = useDispatch();
   const initial = useSelector((state) => state.form);
   const [fields, setFields] = useState(initial.form);
-  // const [valid, setValid] = useState(false)
+  const [valid, setValid] = useState(false)
 
-  const validateForm = (errors) => {
-   let valid = true;
-    Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
-    return valid;
-  };
+
 
   const handleChange = (e) => {
     const { id, value, innerHTML } = e.target;
@@ -62,20 +67,25 @@ const BlockForm = () => {
       default:
         break;
     }
+    if (innerHTML.length) {
+      setValid(true)
+    }
     setFields({
       ...fields,
       [id]: value || innerHTML,
       errors,
     });
-    console.log(errors, "er");
+    // console.log(errors, "er");
+    
   };
-
+ 
+console.log(valid);
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (validateForm(fields.errors)) {
       dispatch(setForm(fields));
-    }
+    
+
     setFields({
       firstName: "",
       phone: "",
@@ -94,9 +104,9 @@ const BlockForm = () => {
       },
     });
   };
-  console.log(initial);
+console.log(initial)
   return (
-    <WrapperForm onSubmit={handleSubmit}>
+    <WrapperForm onSubmit={handleSubmit} >
       <ShortInput handleChange={handleChange} fields={fields} />
       <Select
         props={cities}
@@ -126,7 +136,9 @@ const BlockForm = () => {
           />
         }
       />
-      <Button />
+     <ButtonSubmit type="submit" disabled={valid === false} >
+      Отправить заявку
+    </ButtonSubmit>
     </WrapperForm>
   );
 };
