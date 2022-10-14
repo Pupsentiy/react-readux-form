@@ -5,7 +5,8 @@ import BlockInfo from "./BlockInfo";
 import BlockForm from "./BlockForm";
 
 const Container = styled.div`
-  width: 100%;
+  margin: 0 auto;
+  max-width: 1440px;
   height: 100vh;
   display: flex;
   flex-direction: row;

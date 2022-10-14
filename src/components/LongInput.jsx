@@ -26,14 +26,14 @@ const Title = styled.label`
   letter-spacing: 0.25px;
 `;
 
-const LongInput = (value) => {
+const LongInput = ({handleChange,fields,longInputMock}) => {
   return (
     <>
-      {value &&
-        value.value.map((data, i) => (
+      {longInputMock &&
+        longInputMock.map((data, i) => (
           <Wrapper key={i}>
-            <Input placeholder={data.placeholder} legend={data.legend} />
-            <Title>{data.legend}</Title>
+            <Input placeholder={data.placeholder} id={data.name} value={fields[data.name]} onChange={e => handleChange(e)} />
+            <Title>{data.title}</Title>
           </Wrapper>
         ))}
     </>
