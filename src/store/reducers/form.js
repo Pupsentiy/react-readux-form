@@ -5,11 +5,17 @@ const initialState = {
     firstName:'',
     phone:'',
     email:'',
-    url:'',
+    urlSocial:'',
     companyName:'',
     fullName:'',
     city:'',
     sources:'',
+    errors: {
+      firstName: '',
+      email: '',
+      phone: '',
+      urlSocial: '',
+    }
   },
 };
 

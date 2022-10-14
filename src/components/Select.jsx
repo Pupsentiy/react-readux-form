@@ -5,7 +5,7 @@ import arrow from "../assets/img/arrow.svg";
 
 const SelectWrapper = styled.div`
   position: relative;
-  border: #e3e3e3 solid 2px;
+  border: ${({ open }) => (open ? `#0086A8 solid 2px;` : `#e3e3e3 solid 2px`)};
   border-radius: 8px;
   width: 100%;
   height: 50px;
@@ -16,8 +16,6 @@ const SelectWrapper = styled.div`
   cursor: pointer;
   font-size: 14px;
   margin-bottom: 20px;
-
- 
 `;
 const Label = styled.span`
   width: 100%;
@@ -27,8 +25,7 @@ const LabelArrow = styled.img`
   position: absolute;
   top: 45%;
   right: 22px;
-  rotate: 180deg;
-  
+  rotate: ${({open}) => (open ? `180deg` : ``)};
 `;
 const List = styled.ul`
   position: absolute;
@@ -45,36 +42,27 @@ const Li = styled.li`
   border-bottom: #e3e3e3 solid 2px;
   &:last-child {
     border-bottom: none;
+    &:hover {
+      background: #fafafa;
+      border-radius: 0px 0px 8px 8px;
+    }
   }
   &:hover {
     background: #fafafa;
   }
+
+  &:first-child {
+    &:hover {
+      background: #fafafa;
+      border-radius: 8px 8px 0px 0px;
+    }
+  }
 `;
 
-const Selects = styled.select`
-  width: 100%;
-  height: 50px;
-  background: #fff;
-  margin-bottom: 20px;
-  padding: 15px 15px;
-  border-radius: 8px;
-  border: #e3e3e3 solid 2px;
-`;
-const Option = styled.option`
-  border-radius: 8px;
-  padding: 5px 15px;
-`;
-
-const Da = styled.div`
-  width: 100%;
-  height: 50px;
-`;
-const Select = ({ props, placeholder, handleChange, fields }) => {
-  const [open, setOpen] = useState(false);
+const Select = ({ props, placeholder, handleChange, fields,}) => {
   const sortRef = useRef(null);
-  // const selectPoint = () => {};
-  // console.log(props)
-console.log(sortRef);
+  const [open, setOpen] = useState(false)
+
   React.useEffect(() => {
     const handleClickOutside = (_event) => {
       // : MouseEvent
@@ -87,30 +75,15 @@ console.log(sortRef);
     return () => document.body.removeEventListener("click", handleClickOutside);
   }, []);
 
+  
+
   return (
     <>
-      {/* <Selects
-        value={fields[placeholder.name]}
-        onChange={(e) => handleChange(e)}
-        name={placeholder.name}
-      >
-        <Option value="" disabled={true}>
-          {placeholder.placeholder}
-        </Option>
-        {props &&
-          props.map((item, i) => (
-            <Option key={i} value={item.name}>
-              {item.name}
-            </Option>
-          ))}
-      </Selects> */}
-      <SelectWrapper onClick={() => setOpen(!open)} ref={sortRef}>
+      <SelectWrapper onClick={() => setOpen(!open)} ref={sortRef} open={open}>
         <Label>
-          {!fields[placeholder.name]
-            ? placeholder.placeholder
-            : fields[placeholder.name]}
+          {!fields[placeholder.name]? placeholder.placeholder: fields[placeholder.name]}
         </Label>
-        <LabelArrow src={arrow} alt="arrow" />
+        <LabelArrow src={arrow} alt="arrow" open={open}/>
         {open && (
           <List>
             {props &&

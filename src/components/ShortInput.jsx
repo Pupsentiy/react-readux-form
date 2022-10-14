@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-
+import InputMask from "react-input-mask";
 import { shortInputMock } from "../mock/InputMock";
 
 const Wrapper = styled.div`
   position: relative;
 `;
 
-const Input = styled.input`
+const Input = styled(InputMask)`
   width: 180px;
   heigth: 50px;
   border-radius: 8px;
@@ -16,36 +16,46 @@ const Input = styled.input`
   margin-bottom: 20px;
 
   &:focus {
-    border: 
-    #0086A8 solid 2px;
-}
-&:focus ~ label {
-  color: 
-  #0086A8;
-}
-
+    border: #0086a8 solid 2px;
+  }
+  &:focus ~ label {
+    color: #0086a8;
+  }
 `;
 const Title = styled.label`
   position: absolute;
   top: -5px;
   left: 10px;
-  padding:0 5px;
+  padding: 0 5px;
   background: #fff;
   font-size: 12px;
   font-weight: 400;
   line-height: 12px;
   letter-spacing: 0.25px;
-
 `;
-
-const ShortInput = ({handleChange,fields}) => {
+const Errors = styled.p`
+font-size:10px;
+color:red;
+margin-bottom:5px;
+` 
+const ShortInput = ({ handleChange, fields }) => {
   return (
     <>
       {shortInputMock &&
         shortInputMock.map((data, i) => (
           <Wrapper key={i}>
-            <Input placeholder={data.placeholder} id={data.name} value={fields[data.name]} type={data.type} onChange={e => handleChange(e)} pattern={data.pattern} />
+            <Input
+              placeholder={data.placeholder}
+              id={data.name}
+              value={fields[data.name]}
+              // type={data.type}
+              onChange={(e) => handleChange(e)}
+              // pattern={data.pattern}
+              mask={data.mask}
+              maskChar=""
+            />
             <Title>{data.title}</Title>
+            <Errors>{fields.errors[data.name]}</Errors>
           </Wrapper>
         ))}
     </>

@@ -11,10 +11,9 @@ import Button from "./Button";
 import cities from "../mock/cities.json";
 import sources from "../mock/sources.json";
 import { longInputMock, placeholderSelect } from "../mock/InputMock";
+import { validateForm, validEmailRegex } from "./validations";
 
 import { setForm } from "../store/action";
-
-
 
 const WrapperForm = styled.form`
   width: 31%;
@@ -32,27 +31,67 @@ const BlockForm = () => {
   const dispatch = useDispatch();
   const initial = useSelector((state) => state.form);
   const [fields, setFields] = useState(initial.form);
+  // const [valid, setValid] = useState(false)
+
+  const validateForm = (errors) => {
+   let valid = true;
+    Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
+    return valid;
+  };
 
   const handleChange = (e) => {
-    console.log(e);
+    const { id, value, innerHTML } = e.target;
+    let errors = fields.errors;
+
+    switch (id) {
+      case "firstName":
+        errors.firstName =
+          value.length < 2 ? "Поле имеет 2 или более символов" : "";
+        break;
+      case "email":
+        errors.email = validEmailRegex.test(value)
+          ? ""
+          : "Поле заполнено некорректно";
+        break;
+      case "phone":
+        errors.phone = value.length < 17 ? "Поле заполнено некорректно" : "";
+        break;
+      case "urlSocial":
+        errors.urlSocial = value.length < 8 ? "Поле заполнено некорректно" : "";
+        break;
+      default:
+        break;
+    }
     setFields({
       ...fields,
-      [e.target.id]: e.target.value || e.target.innerHTML,
+      [id]: value || innerHTML,
+      errors,
     });
+    console.log(errors, "er");
   };
-  
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(setForm(fields));
+
+    if (validateForm(fields.errors)) {
+      dispatch(setForm(fields));
+    }
     setFields({
       firstName: "",
       phone: "",
       email: "",
-      url: "",
+      urlSocial: "",
       companyName: "",
       fullName: "",
       city: "",
       sources: "",
+      errors: {
+        firstName: "",
+        email: "",
+        phone: "",
+        urlSocial: "",
+        city: "",
+      },
     });
   };
   console.log(initial);

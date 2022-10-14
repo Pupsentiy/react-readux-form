@@ -7,21 +7,21 @@ export const shortInputMock = [
   },
   {
     title: "Номер телефона *",
-    type: "number",
     name: "phone",
     placeholder: "+7(000) 000-00-00",
+    mask: "+7(999) 999-99-99",
   },
   {
     title: "Ваш Email *",
     type: "email",
     name: "email",
     placeholder: "example@skdesign.ru",
-    pattern:".+@.+\..+"
+    // pattern:".+@.+\..+"
   },
   {
     title: "Ссылка на профиль *",
     type: "url",
-    name: "url",
+    name: "urlSocial",
     placeholder: "instagram.com/skde…",
   },
 ];
@@ -45,3 +45,5 @@ export const longInputMock = [
     placeholder: "ФИО",
   },
 ];
+
+

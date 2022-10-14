@@ -13,9 +13,9 @@ const ButtonSubmit = styled.button`
   border: none;
 `;
 
-const Button = () => {
+const Button = ({handleSubmit}) => {
   return (
-    <ButtonSubmit type="submit" >
+    <ButtonSubmit type="button"  onClick={() => handleSubmit()}>
       Отправить заявку
     </ButtonSubmit>
   );
