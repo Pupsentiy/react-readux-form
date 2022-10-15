@@ -1,19 +1,21 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 
 import LongInput from "./LongInput";
 import ShortInput from "./ShortInput";
 import Select from "./Select";
 import Accordion from "./Accordion";
-// import Button from "./Button";
 
 import cities from "../mock/cities.json";
 import sources from "../mock/sources.json";
-import { longInputMock, placeholderSelect } from "../mock/InputMock";
-import { validEmailRegex } from "./validations";
-import loaderImg from '../assets/img/loader.gif'
-import { setForm } from "../store/action";
+import {
+  longInputMock,
+  placeholderSelect,
+  validEmailRegex,
+} from "../mock/InputMock";
+import loaderImg from "../assets/img/loader.gif";
+import { getError, setForm, setLoader } from "../store/action";
 
 const WrapperForm = styled.form`
   width: 31%;
@@ -34,10 +36,11 @@ const ButtonSubmit = styled.button`
   color: ${({ valid }) => (valid === false ? `#828282` : `#fff`)};
   background: ${({ valid }) => (valid === false ? `#e3e3e3` : `#0086A8;`)};
   border: none;
-  cursor: pointer;
+  cursor: ${({ valid }) => (valid === true ? `pointer` : ``)};
 
   &:hover {
-    background: ${({ valid,loader }) => (valid === true && loader === false ? `#007693` : ``)};
+    background: ${({ valid, loader }) =>
+      valid === true && loader === false ? `#007693` : ``};
   }
 
   &:active {
@@ -46,22 +49,34 @@ const ButtonSubmit = styled.button`
 `;
 
 const Loader = styled.img`
-width:30px;
-heigth:30px;
-`
+  width: 30px;
+  heigth: 30px;
+`;
 const social = sources.map((e) => ({ name: e }));
-const cityMass = cities.map(e => (e.name))
+const cityMass = cities.map((e) => e.name);
 
 const BlockForm = () => {
   const dispatch = useDispatch();
   const initial = useSelector((state) => state.form);
+  const errorLabel = useSelector((state) => state.error);
+  const loader = useSelector((state) => state.loader.loader);
   const [fields, setFields] = useState(initial.form);
   const [valid, setValid] = useState(false);
-  const [loader, setLoader] = useState(false);
+  const [error, setError] = useState(false);
+
+  const checkValue = [fields]
+    .map((e) => e.firstName && e.phone && e.email && e.urlSocial && e.city)
+    .every((d) => d.length !== 0);
+
+  useEffect(() => {
+    if (checkValue && error) {
+      setValid(true);
+    }
+  }, [checkValue, valid, error]);
 
   const handleChange = (e) => {
     const { id, value, innerHTML } = e.target;
-    let errors = fields.errors;
+    let errors = errorLabel;
 
     switch (id) {
       case "firstName":
@@ -82,23 +97,33 @@ const BlockForm = () => {
       default:
         break;
     }
-    
     setFields({
       ...fields,
       [id]: value || innerHTML,
-      errors,
     });
-    if (cityMass.includes(innerHTML)) {
+    dispatch(getError(errors));
+
+    const checkingFieldsErrors = Object.values(errors).every(
+      (e) => e.length === 0
+    );
+    setError(checkingFieldsErrors);
+    if (cityMass.includes(innerHTML) && checkingFieldsErrors) {
       setValid(true);
+    } else {
+      setValid(false);
     }
   };
 
+  useEffect(() => {
+    console.log(initial);
+  }, [initial]);
+
   const handleSubmit = (event) => {
+    dispatch(setLoader(true));
     event.preventDefault();
-    setLoader(true);
     setTimeout(() => {
-    setLoader(false);
       dispatch(setForm(fields));
+      setValid(false);
       setFields({
         firstName: "",
         phone: "",
@@ -108,18 +133,12 @@ const BlockForm = () => {
         fullName: "",
         city: "",
         sources: "",
-        errors: {
-          firstName: "",
-          email: "",
-          phone: "",
-          urlSocial: "",
-          city: "",
-        },
       });
-      setValid(false);
+      dispatch(setLoader(false));
     }, 2000);
   };
 
+  // onClick={() => dispatch(setLoader(false))}
   return (
     <WrapperForm onSubmit={handleSubmit}>
       <ShortInput handleChange={handleChange} fields={fields} />
@@ -151,8 +170,17 @@ const BlockForm = () => {
           />
         }
       />
-      <ButtonSubmit type="submit" disabled={valid === false} valid={valid} loader={loader}>
-        {loader === false ? <p>Отправить заявку</p> : <Loader src={loaderImg} alt='loader'/>}
+      <ButtonSubmit
+        type="submit"
+        disabled={valid === false}
+        valid={valid}
+        loader={loader}
+      >
+        {loader === false ? (
+          <>Отправить заявку</>
+        ) : (
+          <Loader src={loaderImg} alt="loader" />
+        )}
       </ButtonSubmit>
     </WrapperForm>
   );

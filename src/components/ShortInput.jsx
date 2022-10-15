@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import InputMask from "react-input-mask";
 import { shortInputMock } from "../mock/InputMock";
+import { useSelector } from "react-redux";
 
 const Wrapper = styled.div`
   position: relative;
@@ -13,7 +14,7 @@ const Input = styled(InputMask)`
   border-radius: 8px;
   padding: 18px 15px;
   border: #e3e3e3 solid 2px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 
   &:focus {
     border: #0086a8 solid 2px;
@@ -34,11 +35,13 @@ const Title = styled.label`
   letter-spacing: 0.25px;
 `;
 const Errors = styled.p`
-font-size:10px;
-color:red;
-margin-bottom:5px;
-` 
+  font-size: 10px;
+  color: red;
+  margin-bottom: 15px;
+  margin-left: 4px;
+`;
 const ShortInput = ({ handleChange, fields }) => {
+  const errorLabel = useSelector((state) => state.error);
   return (
     <>
       {shortInputMock &&
@@ -55,7 +58,7 @@ const ShortInput = ({ handleChange, fields }) => {
               maskChar=""
             />
             <Title>{data.title}</Title>
-            <Errors>{fields.errors[data.name]}</Errors>
+            <Errors>{errorLabel[data.name]}</Errors>
           </Wrapper>
         ))}
     </>

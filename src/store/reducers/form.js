@@ -1,4 +1,4 @@
-import { FORM_DONE } from "../action";
+import { FORM_SUBMIT } from "../action";
 
 const initialState = {
   form: {
@@ -10,19 +10,13 @@ const initialState = {
     fullName:'',
     city:'',
     sources:'',
-    errors: {
-      firstName: '',
-      email: '',
-      phone: '',
-      urlSocial: '',
-    }
   },
 };
 
 
 export const form = (state = initialState, action) => {
   switch (action.type) {
-      case FORM_DONE:
+      case FORM_SUBMIT:
           return {
               ...state.form,
               ...action.payload
