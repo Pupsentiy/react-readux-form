@@ -46,4 +46,4 @@ export const longInputMock = [
   },
 ];
 
-
+export const validEmailRegex = RegExp(".+@.+\..+");

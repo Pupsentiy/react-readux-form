@@ -12,7 +12,8 @@ const Label = styled.p`
 font-size:14px;
 font-weight:400;
 line-height:21px;
-margin-bottom:25px
+margin-bottom:25px;
+cursor:pointer;
 `
 
 const LabelArrow = styled.img`
