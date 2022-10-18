@@ -1,9 +1,9 @@
 export const shortInputMock = [
   {
     title: "Ваше Имя *",
-    type: "text",
     name: "firstName",
     placeholder: "Иван",
+    mask: "",
   },
   {
     title: "Номер телефона *",
@@ -13,37 +13,36 @@ export const shortInputMock = [
   },
   {
     title: "Ваш Email *",
-    type: "email",
     name: "email",
     placeholder: "example@skdesign.ru",
-    // pattern:".+@.+\..+"
+    mask: "",
   },
   {
     title: "Ссылка на профиль *",
-    type: "url",
     name: "urlSocial",
     placeholder: "instagram.com/skde…",
+    mask: "",
   },
 ];
 
 export const placeholderSelect = [
-  { placeholder: "От куда узнали про нас?", name: "sources" },
-  { placeholder: "Выберите город *", name: "city" },
+  
+     {"placeholder": "От куда узнали про нас?", "name": "sources"}, 
+    {"placeholder": "Выберите город *", "name": "city" },
+  
 ];
 
 export const longInputMock = [
   {
     title: "Название организации/студии",
-    type: "text",
     name: "companyName",
     placeholder: "SK Design",
   },
   {
     title: "Получатель",
-    type: "text",
     name: "fullName",
     placeholder: "ФИО",
   },
 ];
 
-export const validEmailRegex = RegExp(".+@.+\..+");
+export const validEmailRegex = RegExp(".+@.+..+");

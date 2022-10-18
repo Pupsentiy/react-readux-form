@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-import BlockInfo from "./BlockInfo";
-import BlockForm from "./BlockForm";
+import BlockInfo from "../components/blockInfo/BlockInfo";
+import BlockForm from "../components/blockForm/BlockForm";
 
 const Container = styled.div`
   margin: 0 auto;
