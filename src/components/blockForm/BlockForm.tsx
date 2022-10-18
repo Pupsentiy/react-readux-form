@@ -14,7 +14,7 @@ import {
 } from "../../mock/InputMock";
 import loaderImg from "../../assets/img/loader.gif";
 
-import {  endLoading, getError, setForm, startLoading } from "../../store/actions/actionCreators";
+import {  endLoading, getError, setForm, setValidFalse, setValidTrue, startLoading } from "../../store/actions/actionCreators";
 import ShortInput from "../shortInput/ShortInput";
 import Select from "../select/Select";
 import { ButtonSubmit, Loader, WrapperForm } from "./BlockForm.styled";
@@ -27,8 +27,8 @@ const BlockForm: React.FC = () => {
   const initial = useSelector((state:RootState) => state.form);
   const errorLabel = useSelector((state: RootState) => state.error);
   const loader = useSelector((state: RootState) => state.loader.loader);
+  const valid = useSelector((state: RootState) => state.valid.valid);
   const [fields, setFields] = useState(initial);
-  const [valid, setValid] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
   const checkValue = [fields]
@@ -37,7 +37,7 @@ const BlockForm: React.FC = () => {
 
   useEffect(() => {
     if (checkValue && error) {
-      setValid(true);
+      dispatch(setValidTrue(true));
     }
   }, [checkValue, valid, error]);
   
@@ -75,9 +75,9 @@ const BlockForm: React.FC = () => {
     );
     setError(checkingFieldsErrors);
     if ( checkingFieldsErrors && checkValue) {
-      setValid(true);
+      dispatch(setValidTrue(true));
     } else {
-      setValid(false);
+      dispatch(setValidFalse(false));
     }
   };
 
@@ -92,7 +92,7 @@ const BlockForm: React.FC = () => {
     
     setTimeout(() => {
       dispatch(setForm(fields));
-      setValid(false);
+      dispatch(setValidFalse(false));
       setFields({
         firstName: "",
         phone: "",
