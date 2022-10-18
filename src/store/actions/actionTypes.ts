@@ -4,3 +4,4 @@ export const START_LOADING = "START_LOADING";
 export const END_LOADING = "END_LOADING";
 export const VALID_TRUE = 'VALID_TRUE'
 export const VALID_FALSE = 'VALID_FALSE'
+export const TOGGLE_ACC = 'TOGGLE_ACC'

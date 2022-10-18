@@ -16,7 +16,6 @@ const Select: React.FC<ISelect> = ({
   fields,
   setFields,
 }) => {
-
   const sortRef = useRef(null);
   const [open, setOpen] = useState<boolean>(false);
 

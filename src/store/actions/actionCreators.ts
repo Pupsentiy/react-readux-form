@@ -1,7 +1,7 @@
 import { IError } from "../reducers/error";
 import { IForm } from "../reducers/form";
 
-import { END_LOADING, ERROR, FORM_SUBMIT, START_LOADING, VALID_FALSE, VALID_TRUE } from "./actionTypes";
+import { END_LOADING, ERROR, FORM_SUBMIT,  TOGGLE_ACC, START_LOADING, VALID_FALSE, VALID_TRUE } from "./actionTypes";
 
 export const setForm = (form: IForm) => ({
   type: FORM_SUBMIT,
@@ -29,4 +29,8 @@ export const setValidTrue = (valid: boolean) => ({
 export const setValidFalse= (valid: boolean) => ({
   type: VALID_FALSE,
   payload:valid,
+});
+export const setToggle = (tog: boolean) => ({
+  type: TOGGLE_ACC,
+  payload:tog,
 });

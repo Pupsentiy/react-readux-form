@@ -39,7 +39,7 @@ const BlockForm: React.FC = () => {
     if (checkValue && error) {
       dispatch(setValidTrue(true));
     }
-  }, [checkValue, valid, error]);
+  }, [checkValue, error]);
   
   const handleChange = (e: {target: { id: string; value: string; };}) => {
     const {id,value} = e.target

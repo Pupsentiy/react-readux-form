@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const WrapperForm = styled.form`
   width: 31%;
   display: flex;
